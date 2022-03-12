@@ -103,7 +103,7 @@ const Home = () => {
           <Loading>Loading...</Loading>
         ) : (
           <Movies>
-          {data.movies && data.movies.map(m => <Movie key={m.id} id={m.id} bg={m.medium_cover_image} />)}
+          {data?.movies?.map(m => <Movie key={m.id} id={m.id} bg={m.medium_cover_image} />)}
           </Movies>
         )
       }
