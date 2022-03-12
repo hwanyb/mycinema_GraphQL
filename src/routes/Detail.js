@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useQuery } from "@apollo/react-hooks";
 import { useParams } from "react-router-dom";
 import Movie from "../components/Movie";
+import HomeIcon from "../components/HomeIcon";
 
 const Base = styled.div`
   margin: 0 auto;
@@ -17,17 +18,23 @@ const Base = styled.div`
   }
 `;
 const Info = styled.div`
+  position: absolute;
+  left: 40%;
   margin: 0;
   width: 60%;
   box-sizing: border-box;
   padding: 50px;
   box-sizing: border-box;
-  margin-top: 150px;
+  margin-top: 60px;
   @media screen and (max-width: 1400px) {
+    left: 50%;
     width: 50%;
   }
   @media screen and (max-width: 1210px) {
+    position: relative;
     width: 100%;
+    left: 0;
+    top: 70vh;
     padding: 30px 30px;
     display: flex;
     justify-content: space-between;
@@ -35,9 +42,13 @@ const Info = styled.div`
     height: 30vh;
     margin-top: 0;
   }
-  @media screen and (max-width: 500px) {
+  @media screen and (max-width: 1210px) {
     display: block;
     text-align: center;
+  }
+  @media screen and (max-width: 500px) {
+    top: 70vh;
+
   }
 `;
 
@@ -53,12 +64,10 @@ const Title = styled.h1`
   color: #000;
   margin-bottom: 20px;
   @media screen and (max-width: 1210px) {
-    margin-bottom: 0;
     font-size: 65px;
   }
   @media screen and (max-width: 500px) {
     font-size: 40px;
-    margin-bottom: 20px;
   }
 `;
 const Subtitle = styled.h3`
@@ -69,7 +78,6 @@ const Subtitle = styled.h3`
   margin-bottom: 10px;
   @media screen and (max-width: 1210px) {
     white-space: nowrap;
-    margin-bottom: 0;
   }
 `;
 
@@ -80,7 +88,7 @@ const Description = styled.p`
   font-weight: 100;
   font-size: 15px;
   white-space: pre-wrap;
-  margin-top: 160px;
+  margin-top: 20px;
   @media screen and (max-width: 1210px) {
     margin-left: 50px;
   }
@@ -99,6 +107,7 @@ const Poster = styled.div`
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center left;
+  position: fixed;
   @media screen and (max-width: 1400px) {
     width: 50%;
   }
@@ -107,22 +116,39 @@ const Poster = styled.div`
     background-size: cover;
     width: 100%;
     height: 70vh;
+  z-index: 99;
+
   }
   @media screen and (max-width: 500px) {
     /* height: 70vh; */
   }
 `;
-
+const SuggestionText = styled.h3`
+  font-family: "Noto Sans KR", sans-serif;
+  font-weight: 700;
+  margin-top: 100px;
+  font-size: 16px;
+  margin-bottom: 20px;
+`;
 const Suggestion = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 25px;
   width: 100%;
   position: relative;
+  @media screen and (max-width: 1400px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media screen and (max-width: 1210px) {
+    grid-template-columns: repeat(4, 1fr);
+  margin-bottom: 50px;
+
+  }
   @media screen and (max-width: 900px) {
     grid-gap: 15px;
     grid-template-columns: repeat(2, 1fr);
   }
+  
 `;
 
 
@@ -133,10 +159,11 @@ const GET_MOVIE = gql`
       title
       language
       rating
-      summary
-      large_cover_image
+      description_intro
+      medium_cover_image
+      genres
     }
-    suggestion(id:$id) {
+    suggestions(id:$id) {
       id
       medium_cover_image
     }
@@ -146,11 +173,12 @@ const GET_MOVIE = gql`
 export default function Detail() {
   const { id } = useParams();
   const { loading, data } = useQuery(GET_MOVIE, {
-    variables: { id }
+    variables: { id: parseInt(id) }
   });
   return (
     <Base>
-      <Poster bg={data?.movie?.large_cover_image} />
+    <HomeIcon />
+      <Poster bg={data?.movie?.medium_cover_image} />
       {loading ? (
         <Info>
           <Loading>Loading....</Loading>
@@ -160,12 +188,13 @@ export default function Detail() {
           <InfoTop>
             <Title>{data?.movie?.title}</Title>
             <Subtitle>
-              {data?.movie?.language} • {data?.movie?.rating}
+              {data?.movie?.language} • {data?.movie?.rating} • {data?.movie?.genres}
             </Subtitle>
           </InfoTop>
-          <Description>{data?.movie?.summary}</Description>
+          <Description>{data?.movie?.description_intro}</Description>
+          <SuggestionText>Suggestion</SuggestionText>
           <Suggestion>
-          {data?.suggestion?.map(m => <Movie key={m.id} id={m.id} bg={m.medium_cover_image} />)}
+          {data?.suggestions?.map(m => <Movie key={m.id} id={m.id} bg={m.medium_cover_image} />)}
           </Suggestion>
         </Info>
       )}

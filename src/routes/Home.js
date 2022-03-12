@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { gql } from 'apollo-boost';
 import { useQuery } from '@apollo/react-hooks';
 import Movie from '../components/Movie';
+import HomeIcon from '../components/HomeIcon';
 
 const Base = styled.div`
   position: relative;
@@ -11,7 +12,7 @@ const Base = styled.div`
 const Intro = styled.div`
   position: relative;
   width: 100%;
-  background-image: url('bgimg2.jpg');
+  background-image: url('bgimg.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -94,6 +95,7 @@ const Home = () => {
   const { loading, data } = useQuery(GET_MOVIES);
   return (
     <Base>
+      <HomeIcon />
       <Intro>
         <IntroTitle>Welcome to My Cinema</IntroTitle>
         <SubTitle>다양한 영화 정보를 볼 수 있는 페이지입니다.</SubTitle>
