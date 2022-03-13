@@ -1,11 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { FcLike, FcLikePlaceholder } from 'react-icons/fc';
+import { gql } from 'apollo-boost';
+import { useMutation } from '@apollo/react-hooks';
 
 const Container = styled.div`
     height: 380px;
     width: 100%;
-    overflow: hidden;
     @media screen and (max-width: 1350px){
         height: 300px;
     }
@@ -41,12 +43,31 @@ const Poster = styled.div`
     border-radius: 15px;
 `;
 
-export default function Movie({ id, bg }) {
+const LikeBtn = styled.button`
+    z-index: 99999;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    position: relative;
+    bottom: 30px;
+`;
+
+const LIKE_MOVIE = gql`
+  mutation toggleLikeMovie($id: Int!, $isLiked: Boolean!) {
+    toggleLikeMovie(id: $id, isLiked: $isLiked) @client
+  }
+`;
+
+export default function Movie({ id, bg, isLiked }) {
+    const [toggleMovie] = useMutation(LIKE_MOVIE, { variables: { id: parseInt(id), isLiked } });
   return (
-      <Container>
-        <StyledLink to={`/${id}`}>
-            <Poster bg={bg}></Poster>
-        </StyledLink>
+    <Container>
+      <StyledLink to={`/${id}`}>
+        <Poster bg={bg}></Poster>
+      </StyledLink>
+      <LikeBtn onClick={toggleMovie}>
+        {isLiked ? <FcLike size={24} /> : <FcLikePlaceholder size={24} />}
+      </LikeBtn>
     </Container>
-  )
+  );
 }

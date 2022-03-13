@@ -11,10 +11,8 @@ const Base = styled.div`
   padding: 0;
   width: 100%;
   display: flex;
-  /* overflow: hidden; */
   @media screen and (max-width: 1210px) {
     flex-direction: column;
-    /* height: 100vh; */
   }
 `;
 const Info = styled.div`
@@ -94,7 +92,6 @@ const Description = styled.p`
   }
   @media screen and (max-width: 500px) {
     margin-left: 0;
-    /* margin-top: 20px; */
     margin-top: 20px;
   }
 `;
@@ -103,7 +100,6 @@ const Poster = styled.div`
   width: 40%;
   height: 100vh;
   background-image: url(${(props) => props.bg});
-  /* background-image: url("test.jpg"); */
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center left;
@@ -118,9 +114,6 @@ const Poster = styled.div`
     height: 70vh;
   z-index: 99;
 
-  }
-  @media screen and (max-width: 500px) {
-    /* height: 70vh; */
   }
 `;
 const SuggestionText = styled.h3`
@@ -162,10 +155,12 @@ const GET_MOVIE = gql`
       description_intro
       medium_cover_image
       genres
+      isLiked @client
     }
     suggestions(id:$id) {
       id
       medium_cover_image
+      isLiked @client
     }
   }
 `;
@@ -177,7 +172,7 @@ export default function Detail() {
   });
   return (
     <Base>
-    <HomeIcon />
+      <HomeIcon />
       <Poster bg={data?.movie?.medium_cover_image} />
       {loading ? (
         <Info>
@@ -188,13 +183,22 @@ export default function Detail() {
           <InfoTop>
             <Title>{data?.movie?.title}</Title>
             <Subtitle>
-              {data?.movie?.language} • {data?.movie?.rating} • {data?.movie?.genres}
+              {data?.movie?.isLiked && "❤ • "}
+              {data?.movie?.language} • {data?.movie?.rating} •{" "}
+              {data?.movie?.genres}
             </Subtitle>
           </InfoTop>
           <Description>{data?.movie?.description_intro}</Description>
           <SuggestionText>Suggestion</SuggestionText>
           <Suggestion>
-          {data?.suggestions?.map(m => <Movie key={m.id} id={m.id} bg={m.medium_cover_image} />)}
+            {data?.suggestions?.map((m) => (
+              <Movie
+                key={m.id}
+                id={m.id}
+                bg={m.medium_cover_image}
+                isLiked={m.isLiked}
+              />
+            ))}
           </Suggestion>
         </Info>
       )}

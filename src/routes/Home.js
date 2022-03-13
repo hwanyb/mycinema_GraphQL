@@ -22,7 +22,7 @@ const Intro = styled.div`
 const IntroTitle = styled.h1`
   text-align: center;
   color: #fff;
-  font-family: 'Fugaz One', cursive;
+  font-family: "Fugaz One", cursive;
   font-size: 50px;
   padding-top: 120px;
   width: 80%;
@@ -87,6 +87,7 @@ const GET_MOVIES = gql`
     movies {
       id
       medium_cover_image
+      isLiked @client
     }
   }
 `;
@@ -105,7 +106,7 @@ const Home = () => {
           <Loading>Loading...</Loading>
         ) : (
           <Movies>
-          {data?.movies?.map(m => <Movie key={m.id} id={m.id} bg={m.medium_cover_image} />)}
+          {data?.movies?.map(m => <Movie key={m.id} id={m.id} bg={m.medium_cover_image} isLiked={m.isLiked} />)}
           </Movies>
         )
       }
