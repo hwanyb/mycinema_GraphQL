@@ -2,7 +2,7 @@
   "name": "mycinema",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://hwannyb.github.io/mycinema_GraphQL",
+  "homepage": "http://hwanyb.github.io/mycinema_GraphQL",
   "dependencies": {
     "@apollo/react-hooks": "^4.0.0",
     "@testing-library/jest-dom": "^5.16.2",
