@@ -44,7 +44,7 @@ const Poster = styled.div`
 `;
 
 const LikeBtn = styled.button`
-    z-index: 99999;
+    z-index: 98;
     cursor: pointer;
     background-color: transparent;
     border: none;
