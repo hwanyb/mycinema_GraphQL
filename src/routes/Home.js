@@ -12,7 +12,7 @@ const Base = styled.div`
 const Intro = styled.div`
   position: relative;
   width: 100%;
-  background-image: url('bgimg.jpg');
+  background-image: url(${process.env.PUBLIC_URL}/bgimg.jpg);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;

@@ -30,14 +30,11 @@ const Info = styled.div`
   }
   @media screen and (max-width: 1210px) {
     position: relative;
-    width: 100%;
     left: 0;
-    top: 70vh;
-    padding: 30px 30px;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    height: 30vh;
     margin-top: 0;
   }
   @media screen and (max-width: 1210px) {
@@ -45,8 +42,7 @@ const Info = styled.div`
     text-align: center;
   }
   @media screen and (max-width: 500px) {
-    top: 70vh;
-
+    padding: 20px;
   }
 `;
 
@@ -109,11 +105,12 @@ const Poster = styled.div`
   }
   @media screen and (max-width: 1210px) {
     background-position: top;
-    background-size: cover;
-    width: 100%;
-    height: 70vh;
-  z-index: 99;
-
+    width: 80vw;
+    height: 500px;
+    z-index: 99;
+    position: relative;
+    margin: 0 auto;
+    margin-top: 80px;
   }
 `;
 const SuggestionText = styled.h3`
@@ -122,6 +119,10 @@ const SuggestionText = styled.h3`
   margin-top: 100px;
   font-size: 16px;
   margin-bottom: 20px;
+  @media screen and (max-width: 1210px) {
+    margin-top: 30px;
+
+  }
 `;
 const Suggestion = styled.div`
   display: grid;
